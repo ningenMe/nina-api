@@ -29,7 +29,7 @@ runs:
       shell: bash
     - id: configure-aws-credentials
       name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v1.6.1
+      uses: aws-actions/configure-aws-credentials@v1.7.0
       with:
         role-to-assume: ${{inputs.role-to-assume}}
         aws-region: ${{inputs.aws-region}}
