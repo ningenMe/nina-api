@@ -11,7 +11,7 @@ jobs:
     outputs:
       go-version: ${{ steps.constant.outputs.go-version }}
       aws-region: ${{ steps.constant.outputs.aws-region }}
-      aws-ecr-repository: zeus-api-repository
+      aws-ecr-repository: nina-api-repository
     steps:
       - id: checkout
         name: checkout
@@ -32,8 +32,7 @@ jobs:
         uses: ./.github/workflows/composite/build-and-push-image
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
           aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
