@@ -1,0 +1,15 @@
+name: constant
+description: constant
+outputs:
+  java-version:
+    value: ${{ steps.constant.outputs.go-version }}
+  aws-region:
+    value: ${{ steps.constant.outputs.aws-region }}
+runs:
+  using: composite
+  steps:
+    - id: constant
+      run: |
+        echo "::set-output name=go-version::1.19.0"
+        echo "::set-output name=aws-region::ap-northeast-1"
+      shell: bash

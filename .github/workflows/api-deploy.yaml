@@ -1,0 +1,40 @@
+name: api-deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  constant:
+    runs-on: ubuntu-latest
+    outputs:
+      go-version: ${{ steps.constant.outputs.go-version }}
+      aws-region: ${{ steps.constant.outputs.aws-region }}
+      aws-ecr-repository: zeus-api-repository
+    steps:
+      - id: checkout
+        name: checkout
+        uses: actions/checkout@v3.0.0
+      - id: constant
+        name: constant
+        uses: ./.github/workflows/composite/constant
+
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    needs: [ constant ]
+    steps:
+      - id: checkout
+        name: checkout
+        uses: actions/checkout@v3.0.0
+      - id: build-and-push-image
+        name: build and push image
+        uses: ./.github/workflows/composite/build-and-push-image
+        with:
+          go-version: ${{ needs.constant.outputs.go-version }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
+
