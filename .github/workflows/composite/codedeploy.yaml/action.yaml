@@ -1,0 +1,27 @@
+name: codedeploy
+description: codedeploy
+inputs:
+  role-to-assume:
+    required: true
+  aws-region:
+    required: true
+runs:
+  using: composite
+  steps:
+    - id: configure-aws-credentials
+      name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1.7.0
+      with:
+        role-to-assume: ${{inputs.role-to-assume}}
+        role-session-name: github-actions-role
+        aws-region: ${{inputs.aws-region}}
+    - id: codedeploy
+      name: codedeploy
+      run: |
+        aws deploy create-deployment \
+          --application-name nina-api-codedeploy-app \
+          --deployment-group-name nina-api-deployment-group \
+          --github-location repository=ningenMe/nina-api,commitId=${{ github.sha }} \
+          --deployment-config-name nina-api-deployment-config \
+          --region ${{inputs.aws-region}}
+      shell: bash
