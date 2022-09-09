@@ -42,7 +42,7 @@ jobs:
 
   codedeploy:
     runs-on: ubuntu-latest
-    needs: [ build-and-push-image ]
+    needs: [ constant, build-and-push-image ]
     steps:
       - id: checkout
         name: checkout
