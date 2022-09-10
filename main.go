@@ -10,7 +10,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/healthcheck", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "ok",
+			"message": "ok!",
 		})
 	})
 	r.Run(":8081")
