@@ -21,7 +21,7 @@ runs:
       name: appspec s3 upload
       run: |
         zip -r codedeploy.zip codedeploy
-        aws s3 sync codedeploy.zip s3://${{inputs.aws-s3-bucket}}/ --delete
+        aws s3 cp codedeploy.zip s3://${{inputs.aws-s3-bucket}}/
       shell: bash
 #    - id: codedeploy
 #      name: codedeploy
