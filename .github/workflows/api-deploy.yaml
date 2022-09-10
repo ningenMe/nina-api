@@ -53,4 +53,6 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
           aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
