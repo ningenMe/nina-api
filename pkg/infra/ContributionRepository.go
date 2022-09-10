@@ -13,11 +13,11 @@ import (
 type ContributionRepository struct{}
 
 type Contribution struct {
-	Time  time.Time
-	Org   string
-	Repo  string
-	User  string
-	Count int
+	Time   time.Time
+	Org    string
+	Repo   string
+	User   string
+	Status string
 }
 
 type NingenmeMysql struct {
@@ -43,7 +43,7 @@ func (ContributionRepository) GetList() []*Contribution {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT contributed_at, organization, repository, user, created_pull_request_count FROM github_contribution")
+	rows, err := db.Query("SELECT contributed_at, organization, repository, user, status FROM github_contribution")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -52,7 +52,7 @@ func (ContributionRepository) GetList() []*Contribution {
 	var list []*Contribution
 	for rows.Next() {
 		c := &Contribution{}
-		if err = rows.Scan(&c.Time, &c.Org, &c.Repo, &c.User, &c.Count); err != nil {
+		if err = rows.Scan(&c.Time, &c.Org, &c.Repo, &c.User, &c.Status); err != nil {
 			log.Fatalln(err)
 		}
 
