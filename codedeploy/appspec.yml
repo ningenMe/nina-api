@@ -5,18 +5,18 @@ files:
     destination: /home/ec2-user/nina-api
 hooks:
   BeforeInstall:
-    - location: deploy/hoge.sh
+    - location: script/hoge.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: deploy/hoge.sh
+    - location: script/hoge.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: deploy/hoge.sh
-      timeout: 300
+    - location: script/deploy.sh
+      timeout: 600
       runas: root
   ApplicationStop:
-    - location: deploy/hoge.sh
+    - location: script/hoge.sh
       timeout: 300
       runas: root

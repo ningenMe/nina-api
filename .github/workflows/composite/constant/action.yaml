@@ -1,7 +1,7 @@
 name: constant
 description: constant
 outputs:
-  java-version:
+  go-version:
     value: ${{ steps.constant.outputs.go-version }}
   aws-region:
     value: ${{ steps.constant.outputs.aws-region }}

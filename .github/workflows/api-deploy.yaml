@@ -53,3 +53,4 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}

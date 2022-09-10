@@ -5,6 +5,8 @@ inputs:
     required: true
   aws-region:
     required: true
+  aws-s3-bucket:
+    required: true
 runs:
   using: composite
   steps:
@@ -15,13 +17,19 @@ runs:
         role-to-assume: ${{inputs.role-to-assume}}
         role-session-name: github-actions-role
         aws-region: ${{inputs.aws-region}}
-    - id: codedeploy
-      name: codedeploy
+    - id: appspec-s3-upload
+      name: appspec s3 upload
       run: |
-        aws deploy create-deployment \
-          --application-name nina-api-codedeploy-app \
-          --deployment-group-name nina-api-deployment-group \
-          --github-location repository=ningenMe/nina-api,commitId=${{ github.sha }} \
-          --deployment-config-name nina-api-deployment-config \
-          --region ${{inputs.aws-region}}
+        zip -r codedeploy.zip codedeploy
+        aws s3 sync codedeploy.zip s3://${{inputs.aws-s3-bucket}}/ --delete
       shell: bash
+#    - id: codedeploy
+#      name: codedeploy
+#      run: |
+#        aws deploy create-deployment \
+#          --application-name nina-api-codedeploy-app \
+#          --deployment-group-name nina-api-deployment-group \
+#          --github-location repository=ningenMe/nina-api,commitId=${{ github.sha }} \
+#          --deployment-config-name nina-api-deployment-config \
+#          --region ${{inputs.aws-region}}
+#      shell: bash
