@@ -41,7 +41,7 @@ runs:
         aws deploy create-deployment \
           --application-name nina-api-codedeploy-app \
           --deployment-group-name nina-api-deployment-group \
-          --s3-location bucket=s3://${{inputs.aws-s3-bucket}}/,key=nina-api.zip,bundleType=zip \
+          --s3-location bucket=${{inputs.aws-s3-bucket}},key=nina-api.zip,bundleType=zip \
           --deployment-config-name nina-api-deployment-config \
           --region ${{inputs.aws-region}}
       shell: bash
