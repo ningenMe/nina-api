@@ -1,17 +1,14 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/ningenme/nina-api/pkg/controller"
 )
 
 func main() {
 	r := gin.Default()
-	r.GET("/healthcheck", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "ok!",
-		})
-	})
+	co := controller.Controller{}
+	r.GET("/healthcheck", co.GetHealthCheck)
+	r.GET("/github-contributions", co.GetGithubContributionList)
 	r.Run(":8081")
 }
