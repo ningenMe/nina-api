@@ -17,6 +17,11 @@ runs:
         role-to-assume: ${{inputs.role-to-assume}}
         role-session-name: github-actions-role
         aws-region: ${{inputs.aws-region}}
+    - id: build-appspec
+      name: build appspec
+      run: |
+        
+      shell: bash
     - id: appspec-s3-upload
       name: appspec s3 upload
       run: |
