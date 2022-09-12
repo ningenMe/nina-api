@@ -1,8 +1,8 @@
 package infra
 
 import (
-	"database/sql"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	"log"
 	"os"
 	"time"
@@ -13,11 +13,11 @@ import (
 type ContributionRepository struct{}
 
 type Contribution struct {
-	Time   time.Time
-	Org    string
-	Repo   string
-	User   string
-	Status string
+	Time   time.Time `db:"contributed_at"`
+	Org    string    `db:"organization"`
+	Repo   string    `db:"repository"`
+	User   string    `db:"user"`
+	Status string    `db:"status"`
 }
 
 type NingenmeMysql struct {
@@ -34,16 +34,20 @@ var ningenmeMysql = NingenmeMysql{
 	Port: os.Getenv("NINGENME_MYSQL_PORT"),
 }
 
-func (ContributionRepository) GetList() []*Contribution {
-	conf := fmt.Sprintf("%s:%s@tcp(%s:%s)/ningenme", ningenmeMysql.User,ningenmeMysql.Password,ningenmeMysql.Host,ningenmeMysql.Port)
+func (ningenmeMysql NingenmeMysql) getConfig() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/ningenme", ningenmeMysql.User,ningenmeMysql.Password,ningenmeMysql.Host,ningenmeMysql.Port)
+}
 
-	db, err := sql.Open("mysql", conf + "?parseTime=true&loc=Asia%2FTokyo")
+func (ContributionRepository) GetList() []*Contribution {
+	fmt.Println(ningenmeMysql.getConfig())
+
+	db, err := sqlx.Open("mysql",  ningenmeMysql.getConfig() + "?parseTime=true&loc=Asia%2FTokyo")
 	if err != nil {
 		log.Fatalln(err)
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT contributed_at, organization, repository, user, status FROM github_contribution")
+	rows, err := db.Queryx(`SELECT contributed_at, organization, repository, user, status FROM github_contribution`)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -52,14 +56,27 @@ func (ContributionRepository) GetList() []*Contribution {
 	var list []*Contribution
 	for rows.Next() {
 		c := &Contribution{}
-		if err = rows.Scan(&c.Time, &c.Org, &c.Repo, &c.User, &c.Status); err != nil {
+		if err = rows.StructScan(c); err != nil {
 			log.Fatalln(err)
 		}
-
-		fmt.Println(c)
 		list = append(list, c)
 	}
 
 	return list
 }
 
+
+func (ContributionRepository) InsertList(contributionList []Contribution) {
+
+	db, err := sqlx.Open("mysql",  ningenmeMysql.getConfig() + "?parseTime=true&loc=Asia%2FTokyo")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer db.Close()
+
+	_, err = db.NamedExec(`INSERT INTO github_contribution (contributed_at, organization, repository, user, status) 
+                                 VALUES (:contributed_at, :organization, :repository, :user, :status)`, contributionList)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
