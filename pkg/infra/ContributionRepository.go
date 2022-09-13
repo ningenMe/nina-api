@@ -28,7 +28,10 @@ func (ContributionRepository) GetList() []*domainmodel.Contribution {
 }
 
 
-func (ContributionRepository) InsertList(contributionList []domainmodel.Contribution) {
+func (ContributionRepository) InsertList(contributionList []*domainmodel.Contribution) {
+	if len(contributionList) == 0 {
+		return
+	}
 	_, err := NingenmeMysql.NamedExec(`INSERT INTO github_contribution (contributed_at, organization, repository, user, status) 
                                  VALUES (:contributed_at, :organization, :repository, :user, :status)`, contributionList)
 	if err != nil {

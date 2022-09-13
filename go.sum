@@ -82,6 +82,10 @@ github.com/ningenMe/mami-interface v0.3.0 h1:QJce6jjTV4Vj8ZX26Km/e8Rfqj/zOM0vjla
 github.com/ningenMe/mami-interface v0.3.0/go.mod h1:yHdL/uziWCgpujW3FP2uZl+pxcjBAnM4zLYaFqtqS/0=
 github.com/ningenMe/mami-interface v0.4.0 h1:wIFnMq7StUVvqtI71P2tPazACj1t1bpbc8I85m7onaI=
 github.com/ningenMe/mami-interface v0.4.0/go.mod h1:yHdL/uziWCgpujW3FP2uZl+pxcjBAnM4zLYaFqtqS/0=
+github.com/ningenMe/mami-interface v0.5.0 h1:MfrJqLmacLLV0byDsQnYlSoRFt0bkoe0VfaWPZygego=
+github.com/ningenMe/mami-interface v0.5.0/go.mod h1:yHdL/uziWCgpujW3FP2uZl+pxcjBAnM4zLYaFqtqS/0=
+github.com/ningenMe/mami-interface v0.6.0 h1:KM9Lkdd5DsJHNJIhhnZfMxlqXU8ipZSIwL4q5LnV/XQ=
+github.com/ningenMe/mami-interface v0.6.0/go.mod h1:yHdL/uziWCgpujW3FP2uZl+pxcjBAnM4zLYaFqtqS/0=
 github.com/pelletier/go-toml/v2 v2.0.5 h1:ipoSadvV8oGUjnUbMub59IDPPwfxF694nG/jwbMiyQg=
 github.com/pelletier/go-toml/v2 v2.0.5/go.mod h1:OMHamSCAODeSsVrwwvcJOaoN0LIUIaFVNZzmWyNfXas=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e h1:aoZm08cpOy4WuID//EZDgcC4zIxODThtZNPirFr42+A=
