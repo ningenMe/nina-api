@@ -13,11 +13,11 @@ import (
 type ContributionRepository struct{}
 
 type Contribution struct {
-	Time   time.Time `db:"contributed_at"`
-	Org    string    `db:"organization"`
-	Repo   string    `db:"repository"`
-	User   string    `db:"user"`
-	Status string    `db:"status"`
+	ContributedAt time.Time `db:"contributed_at"`
+	Organization  string    `db:"organization"`
+	Repository    string    `db:"repository"`
+	User          string    `db:"user"`
+	Status        string    `db:"status"`
 }
 
 type NingenmeMysql struct {

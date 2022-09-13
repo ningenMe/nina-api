@@ -19,9 +19,9 @@ func (c *Controller) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetGi
 	for _, contribution := range list {
 
 		viewList = append(viewList, &mami.Contribution{
-			ContributedAt: contribution.Time.String(),
-			Organization: contribution.Org,
-			Repository: contribution.Repo,
+			ContributedAt: contribution.ContributedAt.String(),
+			Organization: contribution.Organization,
+			Repository: contribution.Repository,
 			User: contribution.User,
 			Status: contribution.Status,
 		})
