@@ -7,6 +7,7 @@ go get -u github.com/ningenMe/mami-interface@v0.x.0
 
 - endpoint
 ```shell
+grpcurl -plaintext localhost:8081 list
 grpcurl -plaintext localhost:8081 nina.GithubContribution.Get
 ```
 

@@ -28,7 +28,8 @@ func main() {
 
 	s := grpc.NewServer()
 	reflection.Register(s)
-	mami.RegisterGithubContributionServer(s, &controller.Controller{})
+	mami.RegisterGithubContributionServer(s, &controller.GithubContributionController{})
+	mami.RegisterHealthServer(s, &controller.HealthController{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalln(err)
 	}

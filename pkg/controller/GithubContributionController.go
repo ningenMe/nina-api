@@ -10,12 +10,12 @@ import (
 	"time"
 )
 
-type Controller struct {
+type GithubContributionController struct {
 	mami.UnimplementedGithubContributionServer
 }
 var repository = infra.ContributionRepository{}
 
-func (c *Controller) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetGithubContributionResponse, error) {
+func (c *GithubContributionController) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetGithubContributionResponse, error) {
 	list := repository.GetList()
 
 	viewList := []*mami.Contribution{}
@@ -35,7 +35,7 @@ func (c *Controller) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetGi
 	}, nil
 }
 
-func (c *Controller) Post(stream mami.GithubContribution_PostServer) error {
+func (c *GithubContributionController) Post(stream mami.GithubContribution_PostServer) error {
 
 	flag := true
 	for flag {
