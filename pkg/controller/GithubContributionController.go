@@ -11,7 +11,7 @@ import (
 )
 
 type GithubContributionController struct {
-	mami.UnimplementedGithubContributionServer
+	mami.UnimplementedGithubContributionServiceServer
 }
 var repository = infra.ContributionRepository{}
 
@@ -35,7 +35,7 @@ func (c *GithubContributionController) Get(ctx context.Context, empty *emptypb.E
 	}, nil
 }
 
-func (c *GithubContributionController) Post(stream mami.GithubContribution_PostServer) error {
+func (c *GithubContributionController) Post(stream mami.GithubContributionService_PostServer) error {
 
 	flag := true
 	for flag {
@@ -64,3 +64,9 @@ func (c *GithubContributionController) Post(stream mami.GithubContribution_PostS
 	return stream.SendAndClose(&emptypb.Empty{})
 }
 
+func (c *GithubContributionController) Delete(ctx context.Context, req *mami.DeleteGithubContributionRequest) (*emptypb.Empty, error) {
+	startAt, _ := time.Parse(time.RFC3339,req.GetStartAt())
+	endAt, _ := time.Parse(time.RFC3339,req.GetEndAt())
+	repository.Delete(startAt, endAt)
+	return &emptypb.Empty{}, nil
+}

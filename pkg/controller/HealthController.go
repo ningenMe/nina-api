@@ -7,7 +7,7 @@ import (
 )
 
 type HealthController struct {
-	mami.UnimplementedHealthServer
+	mami.UnimplementedHealthServiceServer
 }
 
 func (c *HealthController) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetHealthResponse, error) {
