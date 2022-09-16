@@ -5,10 +5,16 @@
 go get -u github.com/ningenMe/mami-interface@v0.x.0
 ```
 
+```shell
+`aws ssm get-parameters-by-path --path "/" --region ap-northeast-1 --output text | awk '{print "export",$5"="$7}'`
+
+```
+
 - endpoint
 ```shell
 grpcurl -plaintext localhost:8081 list
-grpcurl -plaintext localhost:8081 nina.Health/Get
+grpcurl -plaintext localhost:8081 nina.HealthService/Get
+grpcurl -plaintext localhost:8081 nina.GithubContributionService.Get
 ```
 
 ```shell
@@ -31,5 +37,14 @@ grpcurl -plaintext -d '
         "status": "status2"
       }
     }
-' localhost:8081 nina.GithubContribution.Post
+' localhost:8081 nina.GithubContributionService.Post
+```
+
+```shell
+grpcurl -plaintext -d '
+    {
+      "startAt" : "2022-09-14T00:00:00+09:00",
+      "endAt"   : "2022-09-16T00:00:00+09:00"
+    }
+' localhost:8081 nina.GithubContributionService.Delete
 ```
