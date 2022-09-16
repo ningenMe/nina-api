@@ -52,4 +52,10 @@ grpcurl -plaintext -d '
       "endAt"   : "2022-09-16T00:00:00+09:00"
     }
 ' localhost:8081 nina.GithubContributionService.Delete
+grpcurl -d '
+    {
+      "startAt" : "2022-09-14T00:00:00+09:00",
+      "endAt"   : "2022-09-16T00:00:00+09:00"
+    }
+' nina-api.ningenme.net:443 nina.GithubContributionService.Delete
 ```
