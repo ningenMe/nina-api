@@ -13,8 +13,13 @@ go get -u github.com/ningenMe/mami-interface@v0.x.0
 - endpoint
 ```shell
 grpcurl -plaintext localhost:8081 list
+grpcurl nina-api.ningenme.net:443 list 
+
 grpcurl -plaintext localhost:8081 nina.HealthService/Get
+grpcurl nina-api.ningenme.net:443 nina.HealthService/Get
+
 grpcurl -plaintext localhost:8081 nina.GithubContributionService.Get
+grpcurl nina-api.ningenme.net:443 nina.GithubContributionService.Get
 ```
 
 ```shell
