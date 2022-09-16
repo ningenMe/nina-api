@@ -34,7 +34,7 @@ func (ContributionRepository) InsertList(contributionList []*domainmodel.Contrib
 	chunkSize := 1000
 
 	for _, partitionedList := range domainmodel.PartitionedList[domainmodel.Contribution](contributionList, chunkSize) {
-		_, err := NingenmeMysql.NamedExec(`INSERT INTO github_contribution (contributed_at, organization, repository, user, status) 
+		_, err := NingenmeMysql.NamedExec(`REPLACE INTO github_contribution (contributed_at, organization, repository, user, status) 
                                  VALUES (:contributed_at, :organization, :repository, :user, :status)`, partitionedList)
 		if err != nil {
 			fmt.Println(err)
