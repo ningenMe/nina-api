@@ -37,29 +37,22 @@ func (c *GithubContributionController) Get(ctx context.Context, empty *emptypb.E
 
 func (c *GithubContributionController) Post(stream mami.GithubContributionService_PostServer) error {
 
-	flag := true
-	for flag {
-		var list []*domainmodel.Contribution
-		for {
-			req, err := stream.Recv()
-			if err == io.EOF {
-				flag = false
-				break
-			}
-			if len(list) >= 3000 {
-				break
-			}
-			t, _ := time.Parse(time.RFC3339,req.Contribution.GetContributedAt())
-			list = append(list, &domainmodel.Contribution{
-				ContributedAt: t,
-				Organization: req.Contribution.GetOrganization(),
-				Repository: req.Contribution.GetRepository(),
-				User: req.Contribution.GetUser(),
-				Status: req.Contribution.GetStatus(),
-			})
+	var list []*domainmodel.Contribution
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			break
 		}
-		repository.InsertList(list)
+		t, _ := time.Parse(time.RFC3339,req.Contribution.GetContributedAt())
+		list = append(list, &domainmodel.Contribution{
+			ContributedAt: t,
+			Organization: req.Contribution.GetOrganization(),
+			Repository: req.Contribution.GetRepository(),
+			User: req.Contribution.GetUser(),
+			Status: req.Contribution.GetStatus(),
+		})
 	}
+	repository.InsertList(list)
 
 	return stream.SendAndClose(&emptypb.Empty{})
 }

@@ -30,13 +30,17 @@ func (ContributionRepository) GetList() []*domainmodel.Contribution {
 
 
 func (ContributionRepository) InsertList(contributionList []*domainmodel.Contribution) {
-	if len(contributionList) == 0 {
-		return
-	}
-	_, err := NingenmeMysql.NamedExec(`INSERT INTO github_contribution (contributed_at, organization, repository, user, status) 
-                                 VALUES (:contributed_at, :organization, :repository, :user, :status)`, contributionList)
-	if err != nil {
-		fmt.Println(err)
+
+	chunkSize := 1000
+
+	for _, partitionedList := range domainmodel.PartitionedList[domainmodel.Contribution](contributionList, chunkSize) {
+		_, err := NingenmeMysql.NamedExec(`INSERT INTO github_contribution (contributed_at, organization, repository, user, status) 
+                                 VALUES (:contributed_at, :organization, :repository, :user, :status)`, partitionedList)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		time.Sleep(time.Second * 2)
 	}
 }
 
