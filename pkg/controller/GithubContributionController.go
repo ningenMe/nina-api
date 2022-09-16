@@ -43,14 +43,16 @@ func (c *GithubContributionController) Post(stream mami.GithubContributionServic
 		if err == io.EOF {
 			break
 		}
-		t, _ := time.Parse(time.RFC3339,req.Contribution.GetContributedAt())
-		list = append(list, &domainmodel.Contribution{
-			ContributedAt: t,
-			Organization: req.Contribution.GetOrganization(),
-			Repository: req.Contribution.GetRepository(),
-			User: req.Contribution.GetUser(),
-			Status: req.Contribution.GetStatus(),
-		})
+		for _, contribution := range req.GetContributions() {
+			t, _ := time.Parse(time.RFC3339,contribution.GetContributedAt())
+			list = append(list, &domainmodel.Contribution{
+				ContributedAt: t,
+				Organization: contribution.GetOrganization(),
+				Repository: contribution.GetRepository(),
+				User: contribution.GetUser(),
+				Status: contribution.GetStatus(),
+			})
+		}
 	}
 	repository.InsertList(list)
 
