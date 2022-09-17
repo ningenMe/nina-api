@@ -7,6 +7,7 @@ import (
 	"github.com/ningenme/nina-api/pkg/infra"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"io"
+	"sort"
 	"time"
 )
 
@@ -64,4 +65,35 @@ func (c *GithubContributionController) Delete(ctx context.Context, req *mami.Del
 	endAt, _ := time.Parse(time.RFC3339,req.GetEndAt())
 	repository.Delete(startAt, endAt)
 	return &emptypb.Empty{}, nil
+}
+
+func (c *GithubContributionController) GetSummary(ctx context.Context, req *mami.GetGithubContributionSummaryRequest) (*mami.GetGithubContributionSummaryResponse, error) {
+	summaryList := repository.GetSummaryList(req.GetUser())
+	sort.Slice(summaryList, func(i, j int) bool { return summaryList[i].Date < summaryList[j].Date })
+
+	var pullRequest []*mami.ContributionSummary
+	var comment     []*mami.ContributionSummary
+	var approve     []*mami.ContributionSummary
+
+	for _, summary := range summaryList {
+		cs := mami.ContributionSummary{
+			Date:  summary.Date,
+			Count: int32(summary.Count),
+		}
+
+		switch summary.Status {
+		case "CREATED_PULL_REQUEST":
+			pullRequest = append(pullRequest, &cs)
+		case "COMMENTED":
+			comment = append(comment, &cs)
+		case "APPROVED":
+			approve = append(approve, &cs)
+		}
+	}
+
+	return &mami.GetGithubContributionSummaryResponse{
+		PullRequestSummaries: pullRequest,
+		CommentedSummaries: comment,
+		ApprovedSummaries: approve,
+	}, nil
 }

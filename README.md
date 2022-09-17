@@ -59,3 +59,16 @@ grpcurl -d '
     }
 ' nina-api.ningenme.net:443 nina.GithubContributionService.Delete
 ```
+
+```shell
+grpcurl -plaintext -d '
+    {
+      "user" : "ningenMe"
+    }
+' localhost:8081 nina.GithubContributionService.GetSummary
+grpcurl -d '
+    {
+      "user" : "ningenMe"
+    }
+' nina-api.ningenme.net:443 nina.GithubContributionService.GetSummary
+```

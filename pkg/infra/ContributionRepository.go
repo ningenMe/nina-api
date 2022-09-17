@@ -54,3 +54,43 @@ func (ContributionRepository) Delete(startAt time.Time, endAt time.Time) {
 		fmt.Println(err)
 	}
 }
+
+func (ContributionRepository) GetSummaryList(user string) []*domainmodel.ContributionSummary {
+	rows, err := NingenmeMysql.NamedQuery(`SELECT contributed_at, organization, repository, user, status FROM github_contribution WHERE user = :user`,
+		map[string]interface{}{
+			"user": user,
+		})
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	mp := make(map[domainmodel.ContributionSummaryKey]int)
+	for rows.Next() {
+		c := &domainmodel.Contribution{}
+
+		if err = rows.StructScan(c); err != nil {
+			fmt.Println(err)
+		}
+
+		key := domainmodel.ContributionSummaryKey{
+			Date: c.ContributedAt.Format("2006-01-02"),
+			User: c.User,
+			Status: c.Status,
+		}
+		if _, ok := mp[key]; !ok {
+			mp[key] = 0
+		}
+		mp[key] = mp[key] + 1
+	}
+
+	var list []*domainmodel.ContributionSummary
+	for key,value := range mp {
+		cs := domainmodel.ContributionSummary{
+			Count: value,
+			ContributionSummaryKey: key,
+		}
+		list = append(list, &cs)
+	}
+	return list
+}

@@ -10,3 +10,13 @@ type Contribution struct {
 	Status        string    `db:"status"`
 }
 
+type ContributionSummaryKey struct {
+	Date          string
+	User          string
+	Status        string
+}
+type ContributionSummary struct {
+	Count         int
+	ContributionSummaryKey
+}
+
