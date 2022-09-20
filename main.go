@@ -3,7 +3,7 @@ package main
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/ningenMe/mami-interface/nina-api-grpc/mami"
+	nina_api_grpc "github.com/ningenMe/mami-interface/mami-generated-server/nina-api-grpc"
 	"github.com/ningenme/nina-api/pkg/controller"
 	"github.com/ningenme/nina-api/pkg/infra"
 	"google.golang.org/grpc"
@@ -28,8 +28,8 @@ func main() {
 	reflection.Register(s)
 
 	{
-		mami.RegisterGithubContributionServiceServer(s, &controller.GithubContributionController{})
-		mami.RegisterHealthServiceServer(s, &controller.HealthController{})
+		nina_api_grpc.RegisterGithubContributionServiceServer(s, &controller.GithubContributionController{})
+		nina_api_grpc.RegisterHealthServiceServer(s, &controller.HealthController{})
 	}
 
 	if err := s.Serve(lis); err != nil {

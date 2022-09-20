@@ -2,16 +2,16 @@ package controller
 
 import (
 	"context"
-	"github.com/ningenMe/mami-interface/nina-api-grpc/mami"
+	nina_api_grpc "github.com/ningenMe/mami-interface/mami-generated-server/nina-api-grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type HealthController struct {
-	mami.UnimplementedHealthServiceServer
+	nina_api_grpc.UnimplementedHealthServiceServer
 }
 
-func (c *HealthController) Get(ctx context.Context, empty *emptypb.Empty) (*mami.GetHealthResponse, error) {
-	return &mami.GetHealthResponse{
+func (c *HealthController) Get(ctx context.Context, empty *emptypb.Empty) (*nina_api_grpc.GetHealthResponse, error) {
+	return &nina_api_grpc.GetHealthResponse{
 		Message: "ok",
 	}, nil
 }
