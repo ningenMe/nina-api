@@ -1,5 +1,5 @@
-name: build-and-push-image
-description: build-and-push-image
+name: docker-build-and-push-image
+description: docker-build-and-push-image
 inputs:
   dockerfile-path:
     required: true

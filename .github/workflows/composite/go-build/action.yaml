@@ -1,0 +1,17 @@
+name: go-build
+description: go build
+inputs:
+  go-version:
+    required: true
+runs:
+  using: composite
+  steps:
+    - id: setup-go
+      name: setup go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ inputs.go-version }}
+    - id: go-build
+      name: go build
+      run: go build .
+      shell: bash
