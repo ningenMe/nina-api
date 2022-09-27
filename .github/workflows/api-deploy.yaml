@@ -56,6 +56,7 @@ jobs:
         name: codedeploy
         uses: ./.github/workflows/composite/codedeploy
         with:
+          application-name: nina-api
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
