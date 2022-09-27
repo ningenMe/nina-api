@@ -23,20 +23,20 @@ runs:
       name: go build
       run: go build .
       shell: bash
-    - id: image-build
-      name: image build
-      run: docker build -t ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest .
-      shell: bash
-    - id: configure-aws-credentials
-      name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v1.7.0
-      with:
-        role-to-assume: ${{inputs.role-to-assume}}
-        role-session-name: github-actions-role
-        aws-region: ${{inputs.aws-region}}
-    - id: push-image
-      name: push image
-      run: |
-        aws ecr get-login-password --region ${{inputs.aws-region}} | docker login --username AWS --password-stdin ${{ inputs.aws-ecr-registry }}
-        docker push ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest
-      shell: bash
+#    - id: image-build
+#      name: image build
+#      run: docker build -t ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest .
+#      shell: bash
+#    - id: configure-aws-credentials
+#      name: configure aws credentials
+#      uses: aws-actions/configure-aws-credentials@v1.7.0
+#      with:
+#        role-to-assume: ${{inputs.role-to-assume}}
+#        role-session-name: github-actions-role
+#        aws-region: ${{inputs.aws-region}}
+#    - id: push-image
+#      name: push image
+#      run: |
+#        aws ecr get-login-password --region ${{inputs.aws-region}} | docker login --username AWS --password-stdin ${{ inputs.aws-ecr-registry }}
+#        docker push ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest
+#      shell: bash

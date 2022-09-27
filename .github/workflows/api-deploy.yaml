@@ -39,6 +39,15 @@ jobs:
           aws-region: ${{ needs.constant.outputs.aws-region }}
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
           aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
+      - id: docker-build-and-push-image
+        name: docker build and push image
+        uses: ./.github/workflows/composite/docker-build-and-push-image
+        with:
+          dockerfile-path: "."
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
 
   codedeploy:
     runs-on: ubuntu-latest
