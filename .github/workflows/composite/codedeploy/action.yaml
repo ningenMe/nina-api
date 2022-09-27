@@ -3,6 +3,8 @@ description: codedeploy
 inputs:
   application-name:
     required: true
+  working-directory:
+    required: true
   role-to-assume:
     required: true
   aws-region:
@@ -31,12 +33,14 @@ runs:
         sed -i -e 's/AWS_ECR_REGISTRY/${{ inputs.aws-ecr-registry }}/g' deploy.sh
         sed -i -e 's/AWS_ECR_REPOSITORY/${{ inputs.aws-ecr-repository }}/g' deploy.sh
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
     - id: appspec-s3-upload
       name: appspec s3 upload
       run: |
         zip -r ${{ inputs.application-name }}.zip codedeploy
         aws s3 cp ${{ inputs.application-name }}.zip s3://${{inputs.aws-s3-bucket}}/
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
     - id: codedeploy
       name: codedeploy
       run: |
