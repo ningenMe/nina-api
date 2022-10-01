@@ -14,7 +14,7 @@ var repository = infra.ContributionRepository{}
 func (s *ContributionService) GetStatistics(user string) *nina_api_grpc.GetStatisticsResponse {
 	mp := repository.GetSumMap(user)
 	year, month, day := time.Now().Date()
-	startAt := time.Date(2022, 9, 1, 0, 0, 0, 0, time.Local)
+	startAt := time.Date(2019, 1, 1, 0, 0, 0, 0, time.Local)
 	endAt := time.Date(year, month, day, 0, 0, 0, 0, time.Local)
 
 	createdPullRequestStatistics := GetStatusStatistics(startAt, endAt, user, "CREATED_PULL_REQUEST", mp)
