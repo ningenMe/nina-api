@@ -4,10 +4,10 @@ import (
 	"context"
 	nina_api_grpc "github.com/ningenMe/mami-interface/mami-generated-server/nina-api-grpc"
 	"github.com/ningenme/nina-api/pkg/domainmodel"
+	"github.com/ningenme/nina-api/pkg/domainservice"
 	"github.com/ningenme/nina-api/pkg/infra"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"io"
-	"sort"
 	"time"
 )
 
@@ -15,7 +15,7 @@ type GithubContributionController struct {
 	nina_api_grpc.UnimplementedGithubContributionServiceServer
 }
 var repository = infra.ContributionRepository{}
-
+var service = domainservice.ContributionService{}
 func (c *GithubContributionController) Get(ctx context.Context, empty *emptypb.Empty) (*nina_api_grpc.GetGithubContributionResponse, error) {
 	list := repository.GetList()
 
@@ -67,33 +67,7 @@ func (c *GithubContributionController) Delete(ctx context.Context, req *nina_api
 	return &emptypb.Empty{}, nil
 }
 
-func (c *GithubContributionController) GetSummary(ctx context.Context, req *nina_api_grpc.GetGithubContributionSummaryRequest) (*nina_api_grpc.GetGithubContributionSummaryResponse, error) {
-	summaryList := repository.GetSummaryList(req.GetUser())
-	sort.Slice(summaryList, func(i, j int) bool { return summaryList[i].Date < summaryList[j].Date })
-
-	var pullRequest []*nina_api_grpc.ContributionSummary
-	var comment     []*nina_api_grpc.ContributionSummary
-	var approve     []*nina_api_grpc.ContributionSummary
-
-	for _, summary := range summaryList {
-		cs := nina_api_grpc.ContributionSummary{
-			Date:  summary.Date,
-			Count: int32(summary.Count),
-		}
-
-		switch summary.Status {
-		case "CREATED_PULL_REQUEST":
-			pullRequest = append(pullRequest, &cs)
-		case "COMMENTED":
-			comment = append(comment, &cs)
-		case "APPROVED":
-			approve = append(approve, &cs)
-		}
-	}
-
-	return &nina_api_grpc.GetGithubContributionSummaryResponse{
-		PullRequestSummaries: pullRequest,
-		CommentedSummaries: comment,
-		ApprovedSummaries: approve,
-	}, nil
+func (c *GithubContributionController) GetStatistics(ctx context.Context, req *nina_api_grpc.GetStatisticsRequest) (*nina_api_grpc.GetStatisticsResponse, error) {
+	s := service.GetStatistics(req.GetUser())
+	return s, nil
 }

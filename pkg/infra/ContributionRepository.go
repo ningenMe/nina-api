@@ -55,7 +55,7 @@ func (ContributionRepository) Delete(startAt time.Time, endAt time.Time) {
 	}
 }
 
-func (ContributionRepository) GetSummaryList(user string) []*domainmodel.ContributionSummary {
+func (ContributionRepository) GetSumMap(user string) map[domainmodel.ContributionSumKey]int {
 	rows, err := NingenmeMysql.NamedQuery(`SELECT contributed_at, organization, repository, user, status FROM github_contribution WHERE user = :user`,
 		map[string]interface{}{
 			"user": user,
@@ -65,7 +65,7 @@ func (ContributionRepository) GetSummaryList(user string) []*domainmodel.Contrib
 	}
 	defer rows.Close()
 
-	mp := make(map[domainmodel.ContributionSummaryKey]int)
+	mp := make(map[domainmodel.ContributionSumKey]int)
 	for rows.Next() {
 		c := &domainmodel.Contribution{}
 
@@ -73,7 +73,7 @@ func (ContributionRepository) GetSummaryList(user string) []*domainmodel.Contrib
 			fmt.Println(err)
 		}
 
-		key := domainmodel.ContributionSummaryKey{
+		key := domainmodel.ContributionSumKey{
 			Date: c.ContributedAt.Format("2006-01-02"),
 			User: c.User,
 			Status: c.Status,
@@ -84,13 +84,5 @@ func (ContributionRepository) GetSummaryList(user string) []*domainmodel.Contrib
 		mp[key] = mp[key] + 1
 	}
 
-	var list []*domainmodel.ContributionSummary
-	for key,value := range mp {
-		cs := domainmodel.ContributionSummary{
-			Count: value,
-			ContributionSummaryKey: key,
-		}
-		list = append(list, &cs)
-	}
-	return list
+	return mp
 }

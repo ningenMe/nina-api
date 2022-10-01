@@ -65,10 +65,10 @@ grpcurl -plaintext -d '
     {
       "user" : "ningenMe"
     }
-' localhost:8081 nina.GithubContributionService.GetSummary
+' localhost:8081 nina.GithubContributionService.GetStatistics
 grpcurl -d '
     {
       "user" : "ningenMe"
     }
-' nina-api.ningenme.net:443 nina.GithubContributionService.GetSummary
+' nina-api.ningenme.net:443 nina.GithubContributionService.GetStatistics
 ```
