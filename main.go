@@ -17,18 +17,18 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	infra.NingenmeMysql, err = sqlx.Open("mysql",  infra.NingenmeMysqlConfig.GetConfig())
+	infra.NingenmeMysql, err = sqlx.Open("mysql", infra.NingenmeMysqlConfig.GetConfig())
 	if err != nil {
 		log.Fatalln(err)
 	}
 	defer infra.NingenmeMysql.Close()
-
 
 	s := grpc.NewServer()
 	reflection.Register(s)
 
 	{
 		nina_api_grpc.RegisterGithubContributionServiceServer(s, &controller.GithubContributionController{})
+		nina_api_grpc.RegisterBlogServiceServer(s, &controller.BlogController{})
 		nina_api_grpc.RegisterHealthServiceServer(s, &controller.HealthController{})
 	}
 

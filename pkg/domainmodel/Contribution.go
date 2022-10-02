@@ -10,25 +10,8 @@ type Contribution struct {
 	Status        string    `db:"status"`
 }
 
-//TODO 消す
-type ContributionSummaryKey struct {
-	Date          string
-	User          string
-	Status        string
-}
-type ContributionSummary struct {
-	Count         int
-	ContributionSummaryKey
-}
-//TODO 消す
-
 type ContributionSumKey struct {
 	Date          string
 	User          string
 	Status        string
 }
-type ContributionSum struct {
-	Count         int
-	ContributionSumKey
-}
-

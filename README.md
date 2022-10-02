@@ -2,7 +2,7 @@
 
 - go get
 ```shell
-go get -u github.com/ningenMe/mami-interface@v0.x.0
+go get -u github.com/ningenMe/mami-interface@v1.x.0
 ```
 
 ```shell
