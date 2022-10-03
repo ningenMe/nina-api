@@ -28,7 +28,7 @@ func (c *BlogController) Get(empty *emptypb.Empty, stream nina_api_grpc.BlogServ
 		if err := stream.Send(&nina_api_grpc.GetBlogResponse{Blog: &blog}); err != nil {
 			return err
 		}
-		time.Sleep(time.Second * 60)
+		time.Sleep(time.Second * 20)
 		i += 1
 		i %= n
 	}
