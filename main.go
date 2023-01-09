@@ -17,7 +17,13 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	infra.NingenmeMysql, err = sqlx.Open("mysql", infra.NingenmeMysqlConfig.GetConfig())
+	infra.NingenmeMysql, err = sqlx.Open("mysql", infra.GetMysqlConfig("ningenme").FormatDSN())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer infra.NingenmeMysql.Close()
+
+	infra.ComproMysql, err = sqlx.Open("mysql", infra.GetMysqlConfig("compro").FormatDSN())
 	if err != nil {
 		log.Fatalln(err)
 	}
