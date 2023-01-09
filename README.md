@@ -1,6 +1,6 @@
 # nina-api
 
-- go get
+## go get
 ```shell
 go get -u github.com/ningenMe/mami-interface@v1.x.0
 ```
@@ -10,14 +10,18 @@ go get -u github.com/ningenMe/mami-interface@v1.x.0
 
 ```
 
-- endpoint
+## endpoint
 ```shell
 grpcurl -plaintext localhost:8081 list
 grpcurl nina-api.ningenme.net:443 list 
 
 grpcurl -plaintext localhost:8081 nina.HealthService/Get
 grpcurl nina-api.ningenme.net:443 nina.HealthService/Get
+```
 
+### github contribution
+
+```shell
 grpcurl -plaintext localhost:8081 nina.GithubContributionService.Get
 grpcurl nina-api.ningenme.net:443 nina.GithubContributionService.Get
 ```
@@ -71,4 +75,38 @@ grpcurl -d '
       "user" : "ningenMe"
     }
 ' nina-api.ningenme.net:443 nina.GithubContributionService.GetStatistics
+```
+
+### compro category
+
+```shell
+grpcurl -plaintext localhost:8081 nina.ComproCategoryService/Get
+grpcurl nina-api.ningenme.net:443 nina.ComproCategoryService/Get
+```
+
+```shell
+grpcurl -plaintext -d '
+    {
+      "category" : {
+        "categoryDisplayName": "テスト",
+        "categorySystemName": "test",
+        "categoryOrder": 1
+      }
+    }
+' localhost:8081 nina.ComproCategoryService/Post
+grpcurl -plaintext -d '
+    {
+      "categoryId" : "category_6H8BTC",
+      "category" : {
+        "categoryDisplayName": "テスト改",
+        "categorySystemName": "test2",
+        "categoryOrder": -1
+      }
+    }
+' localhost:8081 nina.ComproCategoryService/Post
+grpcurl -plaintext -d '
+    {
+      "categoryId" : "category_6H8BTC"
+    }
+' localhost:8081 nina.ComproCategoryService/Post
 ```
