@@ -26,6 +26,7 @@ func (c *ComproCategoryController) Get(context.Context, *emptypb.Empty) (*nina_a
 	for _, category := range list {
 
 		viewList = append(viewList, &nina_api_grpc.Category{
+			CategoryId:          category.CategoryId,
 			CategoryDisplayName: category.CategoryDisplayName,
 			CategorySystemName:  category.CategorySystemName,
 			CategoryOrder:       category.CategoryOrder,
