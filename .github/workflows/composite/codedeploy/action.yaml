@@ -28,10 +28,9 @@ runs:
     - id: build-appspec
       name: build appspec
       run: |
-        cd codedeploy/script
-        sed -i -e 's/AWS_REGION/${{ inputs.aws-region }}/g' deploy.sh
-        sed -i -e 's/AWS_ECR_REGISTRY/${{ inputs.aws-ecr-registry }}/g' deploy.sh
-        sed -i -e 's/AWS_ECR_REPOSITORY/${{ inputs.aws-ecr-repository }}/g' deploy.sh
+        cd codedeploy
+        sed -i -e 's/AWS_ECR_REGISTRY/${{ inputs.aws-ecr-registry }}/g' deployment.yaml
+        sed -i -e 's/AWS_ECR_REPOSITORY/${{ inputs.aws-ecr-repository }}/g' deployment.yaml
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - id: appspec-s3-upload
