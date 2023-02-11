@@ -1,5 +1,8 @@
 #!/bin/bash
+
+whoami
 pwd
-ls 
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+ls
+cd /home/ec2-user/nina-api
+kubectl apply -f deployment.yaml -n ningenme-space
+kubectl apply -f service.yaml -n ningenme-space
