@@ -17,24 +17,6 @@ spec:
           image: AWS_ECR_REGISTRY/AWS_ECR_REPOSITORY:latest
           ports:
             - containerPort: 8081
-          env:
-            - name: NINGENME_MYSQL_MASTER_USER_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: NINGENME_MYSQL_MASTER_USER_USERNAME
-            - name: NINGENME_MYSQL_MASTER_USER_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: NINGENME_MYSQL_MASTER_USER_PASSWORD
-            - name: NINGENME_MYSQL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: NINGENME_MYSQL_HOST
-            - name: NINGENME_MYSQL_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: NINGENME_MYSQL_PORT
+          envFrom:
+            - configMapRef:
+                name: env-config
