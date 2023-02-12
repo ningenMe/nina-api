@@ -16,7 +16,7 @@ runs:
   steps:
     - id: image-build
       name: image build
-      run: docker build -t ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest ${{ inputs.dockerfile-path }}
+      run: docker build -t ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:${{ github.sha }} ${{ inputs.dockerfile-path }}
       shell: bash
     - id: configure-aws-credentials
       name: configure aws credentials
@@ -29,5 +29,5 @@ runs:
       name: push image
       run: |
         aws ecr get-login-password --region ${{inputs.aws-region}} | docker login --username AWS --password-stdin ${{ inputs.aws-ecr-registry }}
-        docker push ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:latest
+        docker push ${{ inputs.aws-ecr-registry }}/${{ inputs.aws-ecr-repository }}:${{ github.sha }}
       shell: bash
