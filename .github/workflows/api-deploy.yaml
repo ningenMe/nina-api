@@ -14,7 +14,6 @@ jobs:
     outputs:
       go-version: ${{ steps.constant.outputs.go-version }}
       aws-region: ${{ steps.constant.outputs.aws-region }}
-      aws-ecr-repository: nina-api-repository
     steps:
       - id: checkout
         name: checkout
@@ -35,13 +34,22 @@ jobs:
         uses: ./.github/workflows/composite/go-build
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
-      - id: docker-build-and-push-image
-        name: docker build and push image
+      - id: api-docker-build-and-push-image
+        name: api docker build and push image
         uses: ./.github/workflows/composite/docker-build-and-push-image
         with:
           dockerfile-path: "."
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
-          aws-ecr-repository: ${{ needs.constant.outputs.aws-ecr-repository }}
+          aws-ecr-repository: nina-api-repository
+      - id: envoy-docker-build-and-push-image
+        name: envoy docker build and push image
+        uses: ./.github/workflows/composite/docker-build-and-push-image
+        with:
+          dockerfile-path: "./envoy"
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          aws-ecr-repository: nina-envoy-repository
 
