@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3.0.0
       - id: constant
         name: constant
-        uses: ./.github/workflows/composite/constant
+        uses: ningenMe/chiyuki-k8s-config/action/constant@main
 
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3.0.0
       - id: go-build
         name: go build
-        uses: ./.github/workflows/composite/go-build
+        uses: ningenMe/chiyuki-k8s-config/action/go-build@main
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
       - id: api-docker-build-and-push-image
@@ -62,11 +62,7 @@ jobs:
         uses: actions/checkout@v3.5.0
       - id: kick-deploy
         name: kick deploy
-        run: |
-          TOKEN=${{ secrets.DEPLOY_TOKEN }}
-          curl \
-            -X POST \
-            -H "Authorization: token $TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/ningenMe/chiyuki-k8s-config/actions/workflows/single-deploy.yaml/dispatches \
-            -d '{"ref":"main", "inputs":{"application-name": "nina-api"}}'
+        uses: ningenMe/chiyuki-k8s-config/action/kick-deploy@main
+        with:
+          deploy-token: ${{ secrets.DEPLOY_TOKEN }}
+          application-name: nina-api
