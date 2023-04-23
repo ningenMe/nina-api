@@ -35,7 +35,7 @@ jobs:
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
       - id: api-docker-image-push
-        name: docker-image-push
+        name: api-docker-image-push
         uses: ningenMe/chiyuki-k8s-config/action/docker-image-push@main
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
@@ -44,7 +44,7 @@ jobs:
           docker-image-name: nina-api-repository:${{ github.sha }}
           dockerfile-path: "."
       - id: envoy-docker-image-push
-        name: docker-image-push
+        name: envoy-docker-image-push
         uses: ningenMe/chiyuki-k8s-config/action/docker-image-push@main
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
