@@ -1,4 +1,4 @@
-name: api-deploy
+name: deploy
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     steps:
       - id: checkout
         name: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.5.0
       - id: constant
         name: constant
         uses: ningenMe/chiyuki-k8s-config/action/constant@main
@@ -28,7 +28,7 @@ jobs:
     steps:
       - id: checkout
         name: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.5.0
       - id: build-go
         name: build-go
         uses: ningenMe/chiyuki-k8s-config/action/build-go@main
