@@ -34,24 +34,24 @@ jobs:
         uses: ningenMe/chiyuki-k8s-config/action/build-go@main
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
-      - id: api-docker-build-and-push-image
-        name: api docker build and push image
-        uses: ./.github/workflows/composite/docker-build-and-push-image
+      - id: api-docker-image-push
+        name: docker-image-push
+        uses: ningenMe/chiyuki-k8s-config/action/docker-image-push@main
         with:
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ needs.constant.outputs.aws-region }}
+          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          docker-image-name: nina-api-repository:${{ github.sha }}
           dockerfile-path: "."
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ needs.constant.outputs.aws-region }}
-          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
-          aws-ecr-repository: nina-api-repository
-      - id: envoy-docker-build-and-push-image
-        name: envoy docker build and push image
-        uses: ./.github/workflows/composite/docker-build-and-push-image
+      - id: envoy-docker-image-push
+        name: docker-image-push
+        uses: ningenMe/chiyuki-k8s-config/action/docker-image-push@main
         with:
-          dockerfile-path: "./envoy"
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ needs.constant.outputs.aws-region }}
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
-          aws-ecr-repository: nina-envoy-repository
+          docker-image-name: nina-envoy-repository:${{ github.sha }}
+          dockerfile-path: "./envoy"
 
   deploy:
     runs-on: ubuntu-latest
