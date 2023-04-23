@@ -29,9 +29,9 @@ jobs:
       - id: checkout
         name: checkout
         uses: actions/checkout@v3.0.0
-      - id: go-build
-        name: go build
-        uses: ningenMe/chiyuki-k8s-config/action/go-build@main
+      - id: build-go
+        name: build-go
+        uses: ningenMe/chiyuki-k8s-config/action/build-go@main
         with:
           go-version: ${{ needs.constant.outputs.go-version }}
       - id: api-docker-build-and-push-image
