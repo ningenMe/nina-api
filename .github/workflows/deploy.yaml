@@ -43,15 +43,6 @@ jobs:
           aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
           docker-image-name: nina-api-repository:${{ github.sha }}
           dockerfile-path: "."
-      - id: envoy-docker-image-push
-        name: envoy-docker-image-push
-        uses: ningenMe/chiyuki-k8s-config/action/docker-image-push@main
-        with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ needs.constant.outputs.aws-region }}
-          aws-ecr-registry: ${{ secrets.AWS_ECR_REGISTRY }}
-          docker-image-name: nina-envoy-repository:${{ github.sha }}
-          dockerfile-path: "./envoy"
 
   deploy:
     runs-on: ubuntu-latest
