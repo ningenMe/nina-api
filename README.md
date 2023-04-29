@@ -5,7 +5,7 @@
 ```shell
 cd proto
 buf lint
-npx buf generate miiko
+npx buf generate nina
 ```
 
 - how to set env-variable

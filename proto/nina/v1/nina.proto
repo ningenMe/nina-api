@@ -6,28 +6,28 @@ package nina.v1;
 
 option go_package = "github.com/ningenMe/nina-api/proto/gen_go/v1;ninav1";
 
-service GithubContributionService {
-  rpc Get (google.protobuf.Empty) returns (GetGithubContributionResponse) {}
-  rpc Post (stream PostGithubContributionRequest) returns (google.protobuf.Empty) {}
-  rpc Delete (DeleteGithubContributionRequest) returns (google.protobuf.Empty) {}
-  rpc GetStatistics (GetStatisticsRequest) returns (GetStatisticsResponse) {}
+service NinaService {
+  rpc ContributionGet (google.protobuf.Empty) returns (ContributionGetResponse) {}
+  rpc ContributionPost (stream ContributionPostRequest) returns (google.protobuf.Empty) {}
+  rpc ContributionDelete (ContributionDeleteRequest) returns (google.protobuf.Empty) {}
+  rpc ContributionStatisticsGet (ContributionStatisticsGetRequest) returns (ContributionStatisticsGetResponse) {}
 }
 message Contribution {
-  string contributedAt = 1;
+  string contributed_at = 1;
   string organization = 2;
   string repository = 3;
   string user = 4;
   string status = 5;
 }
-message GetGithubContributionResponse {
-  repeated Contribution contributions = 1;
+message ContributionGetResponse {
+  repeated Contribution contribution_list = 1;
 }
-message PostGithubContributionRequest {
-  repeated Contribution contributions = 1;
+message ContributionPostRequest {
+  repeated Contribution contribution_list = 1;
 }
-message DeleteGithubContributionRequest {
-  string startAt = 1;
-  string endAt = 2;
+message ContributionDeleteRequest {
+  string start_at = 1;
+  string end_at = 2;
 }
 message ContributionSum {
   string date = 1;
@@ -35,13 +35,13 @@ message ContributionSum {
 }
 message ContributionStatistics {
   int32 sum = 1;
-  repeated ContributionSum contributionSumList = 2;
+  repeated ContributionSum contribution_sum_list = 2;
 }
-message GetStatisticsRequest {
+message ContributionStatisticsGetRequest {
   string user = 1;
 }
-message GetStatisticsResponse {
-  ContributionStatistics createdPullRequestStatistics = 1;
-  ContributionStatistics commentedStatistics = 2;
-  ContributionStatistics approvedStatistics = 3;
+message ContributionStatisticsGetResponse {
+  ContributionStatistics created_pull_request_statistics = 1;
+  ContributionStatistics commented_statistics = 2;
+  ContributionStatistics approved_statistics = 3;
 }
