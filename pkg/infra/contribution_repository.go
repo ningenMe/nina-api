@@ -9,16 +9,31 @@ import (
 
 type ContributionRepository struct{}
 
-func (ContributionRepository) GetList() []*domainmodel.Contribution {
+
+type ContributionDto struct {
+	ContributedAt time.Time `db:"contributed_at"`
+	Organization  string    `db:"organization"`
+	Repository    string    `db:"repository"`
+	User          string    `db:"user"`
+	Status        string    `db:"status"`
+}
+
+type ContributionSumKey struct {
+	Date          string
+	User          string
+	Status        string
+}
+
+func (ContributionRepository) GetList() []*ContributionDto {
 	rows, err := NingenmeMysql.Queryx(`SELECT contributed_at, organization, repository, user, status FROM github_contribution`)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer rows.Close()
 
-	var list []*domainmodel.Contribution
+	var list []*ContributionDto
 	for rows.Next() {
-		c := &domainmodel.Contribution{}
+		c := &ContributionDto{}
 		if err = rows.StructScan(c); err != nil {
 			fmt.Println(err)
 		}
@@ -29,11 +44,11 @@ func (ContributionRepository) GetList() []*domainmodel.Contribution {
 }
 
 
-func (ContributionRepository) InsertList(contributionList []*domainmodel.Contribution) {
+func (ContributionRepository) InsertList(contributionList []*ContributionDto) {
 
 	chunkSize := 1000
 
-	for _, partitionedList := range domainmodel.PartitionedList[domainmodel.Contribution](contributionList, chunkSize) {
+	for _, partitionedList := range domainmodel.PartitionedList[ContributionDto](contributionList, chunkSize) {
 		_, err := NingenmeMysql.NamedExec(`REPLACE INTO github_contribution (contributed_at, organization, repository, user, status) 
                                  VALUES (:contributed_at, :organization, :repository, :user, :status)`, partitionedList)
 		if err != nil {
@@ -55,7 +70,7 @@ func (ContributionRepository) Delete(startAt time.Time, endAt time.Time) {
 	}
 }
 
-func (ContributionRepository) GetSumMap(user string) map[domainmodel.ContributionSumKey]int {
+func (ContributionRepository) GetSumMap(user string) map[ContributionSumKey]int {
 	rows, err := NingenmeMysql.NamedQuery(`SELECT contributed_at, organization, repository, user, status FROM github_contribution WHERE user = :user`,
 		map[string]interface{}{
 			"user": user,
@@ -65,15 +80,15 @@ func (ContributionRepository) GetSumMap(user string) map[domainmodel.Contributio
 	}
 	defer rows.Close()
 
-	mp := make(map[domainmodel.ContributionSumKey]int)
+	mp := make(map[ContributionSumKey]int)
 	for rows.Next() {
-		c := &domainmodel.Contribution{}
+		c := &ContributionDto{}
 
 		if err = rows.StructScan(c); err != nil {
 			fmt.Println(err)
 		}
 
-		key := domainmodel.ContributionSumKey{
+		key := ContributionSumKey{
 			Date: c.ContributedAt.Format("2006-01-02"),
 			User: c.User,
 			Status: c.Status,

@@ -3,7 +3,6 @@ package application
 import (
 	"context"
 	"github.com/bufbuild/connect-go"
-	"github.com/ningenMe/nina-api/pkg/domainmodel"
 	"github.com/ningenMe/nina-api/pkg/infra"
 	ninav1 "github.com/ningenMe/nina-api/proto/gen_go/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -44,7 +43,7 @@ func (s *NinaController) ContributionPost(
 ) (*connect.Response[emptypb.Empty], error) {
 	//TODO 実装する
 
-	//var list []*domainmodel.Contribution
+	//var list []*domainmodel.ContributionDto
 	//for {
 	//	req, err := stream.Recv()
 	//	if err == io.EOF {
@@ -52,7 +51,7 @@ func (s *NinaController) ContributionPost(
 	//	}
 	//	for _, contribution := range req.GetContributions() {
 	//		t, _ := time.Parse(time.RFC3339, contribution.GetContributedAt())
-	//		list = append(list, &domainmodel.Contribution{
+	//		list = append(list, &domainmodel.ContributionDto{
 	//			ContributedAt: t,
 	//			Organization:  contribution.GetOrganization(),
 	//			Repository:    contribution.GetRepository(),
@@ -106,7 +105,7 @@ func (s *NinaController) ContributionStatisticsGet(
 }
 
 
-func GetStatusStatistics(startAt time.Time, endAt time.Time, user string, status string, mp map[domainmodel.ContributionSumKey]int) *ninav1.ContributionStatistics  {
+func GetStatusStatistics(startAt time.Time, endAt time.Time, user string, status string, mp map[infra.ContributionSumKey]int) *ninav1.ContributionStatistics  {
 
 	var list []*ninav1.ContributionSum
 	totalSum := 0
@@ -115,7 +114,7 @@ func GetStatusStatistics(startAt time.Time, endAt time.Time, user string, status
 		sum := 0
 		for i := 0; i < 7; i++ {
 			targetDayDate := targetWeekAt.AddDate(0,0,i).Format("2006-01-02")
-			key := domainmodel.ContributionSumKey{
+			key := infra.ContributionSumKey{
 				Date: targetDayDate,
 				User: user,
 				Status: status,
