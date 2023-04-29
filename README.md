@@ -1,14 +1,19 @@
 # nina-api
 
-## go get
+- how to build proto
+
 ```shell
-go get -u github.com/ningenMe/mami-interface@v1.x.0
+cd proto
+buf lint
+npx buf generate miiko
 ```
+
+- how to set env-variable
 
 ```shell
 `aws ssm get-parameters-by-path --path "/" --region ap-northeast-1 --output text | awk '{print "export",$5"="$7}'`
-
 ```
+
 
 ## endpoint
 ```shell

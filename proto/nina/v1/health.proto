@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package nina.v1;
+option go_package = "github.com/ningenMe/nina-api/proto/gen_go/v1;miikov1";
+
+message HealthServiceCheckRequest {
+  string service = 1;
+}
+message HealthServiceCheckResponse {
+  enum ServingStatus {
+    SERVING_STATUS_UNSPECIFIED = 0;
+    SERVING_STATUS_SERVING = 1;
+    SERVING_STATUS_NOT_SERVING = 2;
+    SERVING_STATUS_SERVICE_UNKNOWN = 3; // Used only by the Watch method.
+  }
+  ServingStatus status = 1;
+}
+service HealthService {
+  rpc Check(HealthServiceCheckRequest) returns (HealthServiceCheckResponse);
+}
