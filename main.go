@@ -27,6 +27,11 @@ func main() {
 	mux := http.NewServeMux()
 
 	{
+		health := &application.HealthController{}
+		path, handler := ninav1connect.NewHealthServiceHandler(health)
+		mux.Handle(path, handler)
+	}
+	{
 		nina := &application.NinaController{}
 		path, handler := ninav1connect.NewNinaServiceHandler(nina)
 		mux.Handle(path, handler)
