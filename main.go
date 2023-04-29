@@ -23,12 +23,6 @@ func main() {
 	}
 	defer infra.NingenmeMysql.Close()
 
-	infra.ComproMysql, err = sqlx.Open("mysql", infra.GetMysqlConfig("compro").FormatDSN())
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer infra.NingenmeMysql.Close()
-
 	s := grpc.NewServer()
 	reflection.Register(s)
 
@@ -36,7 +30,6 @@ func main() {
 		nina_api_grpc.RegisterGithubContributionServiceServer(s, &controller.GithubContributionController{})
 		nina_api_grpc.RegisterBlogServiceServer(s, &controller.BlogController{})
 		nina_api_grpc.RegisterHealthServiceServer(s, &controller.HealthController{})
-		nina_api_grpc.RegisterComproCategoryServiceServer(s, &controller.ComproCategoryController{})
 	}
 
 	if err := s.Serve(lis); err != nil {

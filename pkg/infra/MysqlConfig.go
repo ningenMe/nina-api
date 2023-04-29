@@ -25,4 +25,3 @@ func GetMysqlConfig(dbName string) *mysql.Config {
 }
 
 var NingenmeMysql *sqlx.DB
-var ComproMysql *sqlx.DB
