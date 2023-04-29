@@ -3,9 +3,9 @@ package application
 import (
 	"context"
 	"github.com/bufbuild/connect-go"
-	"github.com/ningenme/nina-api/pkg/domainmodel"
-	"github.com/ningenme/nina-api/pkg/infra"
-	ninav1 "github.com/ningenme/nina-api/proto/gen_go/v1"
+	"github.com/ningenMe/nina-api/pkg/domainmodel"
+	"github.com/ningenMe/nina-api/pkg/infra"
+	ninav1 "github.com/ningenMe/nina-api/proto/gen_go/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"time"
 )
@@ -40,8 +40,9 @@ func (s *NinaController) ContributionGet(
 }
 func (s *NinaController) ContributionPost(
 	ctx context.Context,
-	req ninav1.ContributionPostRequest,
+	req *connect.ClientStream[ninav1.ContributionPostRequest],
 ) (*connect.Response[emptypb.Empty], error) {
+	//TODO 実装する
 
 	//var list []*domainmodel.Contribution
 	//for {

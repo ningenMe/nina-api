@@ -3,7 +3,7 @@ package infra
 import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/ningenme/nina-api/pkg/domainmodel"
+	"github.com/ningenMe/nina-api/pkg/domainmodel"
 	"time"
 )
 

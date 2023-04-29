@@ -2,7 +2,7 @@ package controller
 
 import (
 	nina_api_grpc "github.com/ningenMe/mami-interface/mami-generated-server/nina-api-grpc"
-	"github.com/ningenme/nina-api/pkg/infra"
+	"github.com/ningenMe/nina-api/pkg/infra"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"time"
 )

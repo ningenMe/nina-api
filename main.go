@@ -3,9 +3,9 @@ package main
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/ningenme/nina-api/pkg/application"
-	"github.com/ningenme/nina-api/pkg/infra"
-	"github.com/ningenme/nina-api/proto/gen_go/v1/ninav1connect"
+	"github.com/ningenMe/nina-api/pkg/application"
+	"github.com/ningenMe/nina-api/pkg/infra"
+	"github.com/ningenMe/nina-api/proto/gen_go/v1/ninav1connect"
 	"github.com/rs/cors"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
